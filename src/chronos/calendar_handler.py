@@ -106,7 +106,7 @@ class CalendarHandler:
 
         with fn_cal.open(encoding="utf-8") as f:
             calendar_contents = f.read()
-            ics_calendar = icalendar.Calendar.from_ical(calendar_contents)
+        ics_calendar = icalendar.Calendar.from_ical(calendar_contents)
 
         # safety check for correct calendar
         if str(ics_calendar["X-WR-CALNAME"]) != self.cal_name:
