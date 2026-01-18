@@ -184,14 +184,13 @@ class CalendarHandler:
         logger.debug(f'Connecting Calendar "{self.cal_name}"')
 
         start = time.time()
-        try:
-            if self.client is not None:
-                self.client.close()
-            self.client = caldav.DAVClient(self.cal_primary, username=self.cal_user, password=self.cal_passwd)
-            self.principal = self.client.principal()
-        except Exception as ex:
-            logger.critical(f"Error on CALDav auth: {ex}")
-            raise
+        if self.client is None:
+            try:
+                self.client = caldav.DAVClient(self.cal_primary, username=self.cal_user, password=self.cal_passwd)
+                self.principal = self.client.principal()
+            except Exception as ex:
+                logger.critical(f"Error on CALDav auth: {ex}")
+                raise
 
         self.events_data = {}
 
