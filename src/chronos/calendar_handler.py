@@ -185,6 +185,8 @@ class CalendarHandler:
 
         start = time.time()
         try:
+            if self.client is not None:
+                self.client.close()
             self.client = caldav.DAVClient(self.cal_primary, username=self.cal_user, password=self.cal_passwd)
             self.principal = self.client.principal()
         except Exception as ex:
