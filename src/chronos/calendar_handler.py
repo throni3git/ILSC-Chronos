@@ -291,3 +291,7 @@ class CalendarHandler:
             if calid == event.cal_id and event.is_chronos_origin:
                 found[key] = event
         return found
+
+    def close_connection(self) -> None:
+        if self.client is not None:
+            self.client.close()

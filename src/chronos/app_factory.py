@@ -101,8 +101,18 @@ class AppFactory:
             logger.debug("Cleaning up")
             self.sync_calendars()
             logger.debug("--== All done for this run ==--")
+            self.close_calendars()
+            logger.debug("Closed sockets to calendars")
         except Exception as ex:
             logger.critical(f"Cron excecution failed. Reason {ex}")
+
+    def close_calendars(self):
+        try:
+            self.target.close_connection()
+            for c in self.calendars:
+                c.close_connection()
+        except Exception as ex:
+            logger.critical(f"Closing sockets failed. Reason: {ex}")
 
     def sync_calendars(self) -> None:
         app_timezone = zoneinfo.ZoneInfo(self.app_config.get("app", "timezone"))
